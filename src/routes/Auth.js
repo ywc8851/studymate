@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { authService } from "fbase";
+import { authService, firebaseInstance } from "components/fbase";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -49,6 +49,29 @@ const Auth = () => {
   // newAccount의 이전 값을 가져와서 그 값에 반대되는 것을 리턴
   const toggleAccount = () => setNewAccount((prev) => !prev);
 
+  // 소셜로그인 함수 (팝업창을 띄움)
+  const onSocialClick = async (event) => {
+    const {
+      target: { name },
+    } = event;
+    let provider;
+    if (name === "google") {
+      // 구글로그인
+      provider = new firebaseInstance.auth.GoogleAuthProvider();
+    } else if (name === "github") {
+      // 깃허브로그인
+      provider = new firebaseInstance.auth.GithubAuthProvider();
+    }
+    /*
+    else if (name === "facebook") {
+      // 페이스북로그인
+      provider = new firebaseInstance.auth.FacebookProvider();
+    }
+    */
+    const data = await authService.signInWithPopup(provider);
+    console.log(data);
+  };
+
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -85,8 +108,18 @@ const Auth = () => {
         }
       </span>
       <div>
-        <button>Continue with Google</button>
-        <button>Continue with Github</button>
+        {/*소셜 로그인하기(구글,깃허브)*/}
+        <button onClick={onSocialClick} name="google">
+          Continue with Google
+        </button>
+        {/* 
+        <button onClick={onSocialClick} name="facebook">
+          Continue with Facebook
+        </button>
+        */}
+        <button onClick={onSocialClick} name="github">
+          Continue with Github
+        </button>
       </div>
     </div>
   );

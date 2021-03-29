@@ -1,4 +1,4 @@
 import React from "react";
 
-const Home = () => <span>Home</span>;
+const Home = () => <span>로그인 성공!</span>;
 export default Home;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppRouter from "components/Router";
-import { authService } from "fbase";
+import { authService } from "components/fbase";
 
 function App() {
   // react hook 사용
@@ -22,6 +22,7 @@ function App() {
   return (
     <>
       <header>공부 메이트</header>
+
       {init ? <AppRouter isLoggedIn={isLoggedIn} /> : "Initializing..."}
       <footer>
         &copy; {new Date().getFullYear()} 공부메이트 copyright by 조용우
