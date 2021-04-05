@@ -13,7 +13,7 @@ const Navigation = () => (
         <Link to="/">추천리스트</Link>
       </li>
       <li>
-        <Link to="/">게시판</Link>
+        <Link to="/board">게시판</Link>
       </li>
       <li>
         <Link to="/profile">프로필</Link>
