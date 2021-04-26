@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // 메뉴 화면을 나타내는 네비게이션 바
 
-const Navigation = () => (
+const Navigation = ({ userObj }) => (
   <nav>
     <ul>
       <li>
@@ -16,7 +16,7 @@ const Navigation = () => (
         <Link to="/board">게시판</Link>
       </li>
       <li>
-        <Link to="/profile">프로필</Link>
+        <Link to="/profile">{userObj.displayName}의 프로필</Link>
       </li>
     </ul>
   </nav>

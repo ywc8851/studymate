@@ -11,18 +11,34 @@ function App() {
     authService.onAuthStateChanged((user) => {
       // 로그인 되어있는지 아닌지를 알 수 있음
       if (user) {
-        setUserObj(user);
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
       }
       setInit(true); // init이 false면 router를 숨김
     });
   }, []);
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  };
   // 로그인한 정보가 currentuser에 들어감
   return (
     <>
       <header>공부 메이트</header>
 
       {init ? (
-        <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} />
+        <AppRouter
+          refreshUser={refreshUser}
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+        />
       ) : (
         "Initializing..."
       )}

@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 /*
 보안을 위해 .env파일에 따로 보관하여 github에 올라가지 않게함
 */
@@ -20,3 +21,4 @@ export const firebaseInstance = firebase;
 
 export const authService = firebase.auth();
 export const dbService = firebase.firestore();
+export const storageService = firebase.storage();

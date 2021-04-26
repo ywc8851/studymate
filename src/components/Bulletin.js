@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { dbService } from "components/fbase";
-
+import { dbService, storageService } from "components/fbase";
 const Bulletin = ({ BulletinObj, isOwner }) => {
   // 게시글 수정을 위한 상태변수 설정
   const [editing, setEditing] = useState(false); // 수정상태인지 아닌지
@@ -10,6 +9,7 @@ const Bulletin = ({ BulletinObj, isOwner }) => {
     if (ok) {
       // ok가 true면 게시글 삭제
       await dbService.doc(`dbboard/${BulletinObj.id}`).delete();
+      await storageService.refFromURL(BulletinObj.attachmentUrl).delete();
     }
   };
   const toggleEditing = () => setEditing((prev) => !prev);
@@ -47,6 +47,9 @@ const Bulletin = ({ BulletinObj, isOwner }) => {
         // 수정상태가 아닌 경우
         <>
           <h4>{BulletinObj.text}</h4>
+          {BulletinObj.attachmentUrl && (
+            <img src={BulletinObj.attachmentUrl} width="50px" height="50px" />
+          )}
           {isOwner && (
             <>
               <button onClick={onDeleteClick}>삭제</button>

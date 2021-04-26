@@ -4,12 +4,12 @@ import Auth from "routes/Auth";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Navigation from "components/Navigation";
-import Board from "routes/board";
+import Board from "routes/Board";
 
-const AppRouter = ({ isLoggedIn, userObj }) => {
+const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
   return (
     <Router>
-      {isLoggedIn && <Navigation />}
+      {isLoggedIn && <Navigation userObj={userObj} />}
       <Switch>
         {isLoggedIn ? ( // 로그인 성공 : home , 로그인 실패 : auth
           <>
@@ -20,7 +20,7 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
               <Board userObj={userObj} />
             </Route>
             <Route exact path="/profile">
-              <Profile />
+              <Profile userObj={userObj} refreshUser={refreshUser} />
             </Route>
           </>
         ) : (
