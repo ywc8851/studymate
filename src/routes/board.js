@@ -85,7 +85,7 @@ const Board = ({ userObj }) => {
         />
         <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="게시글 작성하기" />
-        {attachment && ( // attachment가 있는 경우에만 이미지 보여줌
+        {attachment && ( // attachment가 있는 경우에만 이미지 미리 보여줌
           <div>
             <img src={attachment} width="50px" height="50px" />
             <button onClick={onClearAttachment}>업로드 취소</button>
@@ -95,11 +95,14 @@ const Board = ({ userObj }) => {
       <div>
         {/* 모든게시글을 보여줌 */}
         {boards.map((board) => (
-          <Bulletin
-            key={board.id}
-            BulletinObj={board}
-            isOwner={board.creatorId === userObj.uid} // 계정사용자가 게시글 사용자인지 확인하기위해
-          />
+          <>
+            <Bulletin
+              key={board.id}
+              BulletinObj={board}
+              isOwner={board.creatorId === userObj.uid} // 계정사용자가 게시글 사용자인지 확인하기위해
+            />
+            <br></br>
+          </>
         ))}
       </div>
     </div>

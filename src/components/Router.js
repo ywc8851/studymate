@@ -5,6 +5,7 @@ import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Navigation from "components/Navigation";
 import Board from "routes/Board";
+import Myboard from "routes/Myboard";
 
 const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
   return (
@@ -21,6 +22,9 @@ const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
             </Route>
             <Route exact path="/profile">
               <Profile userObj={userObj} refreshUser={refreshUser} />
+            </Route>
+            <Route path="/myboard">
+              <Myboard userObj={userObj} refreshUser={refreshUser} />
             </Route>
           </>
         ) : (
