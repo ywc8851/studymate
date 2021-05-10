@@ -33,10 +33,6 @@ const Board = ({ userObj }) => {
       const response = await attachmentRef.putString(attachment, "data_url");
       attachmentUrl = await response.ref.getDownloadURL(); // 이미지 url을 다운로드하여 저장
     }
-    // const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`); // file에 대한 reference
-    // const response = await fileRef.putString(attachment, "data_url"); // format : data_url
-
-    // await dbService.collection("dbboard").add({
     const boardObj = {
       text: board,
       createdAt: Date.now(),

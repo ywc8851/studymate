@@ -31,8 +31,6 @@ function App() {
   // 로그인한 정보가 currentuser에 들어감
   return (
     <>
-      <header>공부 메이트</header>
-
       {init ? (
         <AppRouter
           refreshUser={refreshUser}
@@ -42,9 +40,9 @@ function App() {
       ) : (
         "Initializing..."
       )}
-      <footer>
+      {/* <footer>
         &copy; {new Date().getFullYear()} 공부메이트 copyright by 조용우
-      </footer>
+      </footer> */}
     </>
   );
 }

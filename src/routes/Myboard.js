@@ -25,11 +25,11 @@ const Myboard = ({ userObj }) => {
   return (
     <div>
       {/* 내가 작성한 게시글을 보여줌 */}
-      {myboards.map((board) => (
+      {myboards.map((myboard) => (
         <Bulletin
-          key={board.id}
-          BulletinObj={board}
-          isOwner={board.creatorId === userObj.uid} // 계정사용자가 게시글 사용자인지 확인하기위해
+          key={myboard.id}
+          BulletinObj={myboard}
+          isOwner={myboard.creatorId === userObj.uid} // 계정사용자가 게시글 사용자인지 확인하기위해
         />
       ))}
     </div>
