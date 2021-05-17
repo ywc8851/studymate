@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { dbService, storageService } from "components/fbase";
 import { v4 as uuidv4 } from "uuid";
-import Bulletin from "../components/Bulletin";
-
+import Pagination from "../components/Pagination";
+import Posts from "../components/Posts";
 const Board = ({ userObj }) => {
   const [board, setBoard] = useState("");
   const [boards, setBoards] = useState([]);
   const [attachment, setAttachment] = useState(""); // 이미지 url을 관리하는 state
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지상태를 관리하는 state
+  const [postsPerPage, setPostsPerPage] = useState(3); // 한페이지당 들어갈 게시글수를 관리하는 state
   useEffect(() => {
     // 실시간으로 게시글을 작성하면 바로 보여지게끔 onSnapshot 사용
     // onSnapshot은 "dbboard"의 db에 무슨일이 있을 때(수정,삭제,등록) , 알림을 받음
@@ -22,7 +24,14 @@ const Board = ({ userObj }) => {
         setBoards(boardArray);
       });
   }, []);
-
+  const indexOfLast = currentPage * postsPerPage;
+  const indexOfFirst = indexOfLast - postsPerPage;
+  function currentPosts(tmp) {
+    // 게시글을 잘라서 Post로 보내주는 함수
+    let currentPosts = 0;
+    currentPosts = tmp.slice(indexOfFirst, indexOfLast);
+    return currentPosts;
+  }
   const onSubmit = async (event) => {
     event.preventDefault();
     let attachmentUrl = "";
@@ -88,8 +97,15 @@ const Board = ({ userObj }) => {
           </div>
         )}
       </form>
-      <div>
-        {/* 모든게시글을 보여줌 */}
+      <Posts boards={currentPosts(boards)} userObj={userObj}></Posts>
+      {/* 게시글 페이징 구현 */}
+      <Pagination
+        postsPerPage={postsPerPage}
+        totalPosts={boards.length}
+        paginate={setCurrentPage}
+      ></Pagination>
+      {/* <div>
+       모든 게시물을 보여줌
         {boards.map((board) => (
           <>
             <Bulletin
@@ -97,10 +113,11 @@ const Board = ({ userObj }) => {
               BulletinObj={board}
               isOwner={board.creatorId === userObj.uid} // 계정사용자가 게시글 사용자인지 확인하기위해
             />
+
             <br></br>
           </>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
