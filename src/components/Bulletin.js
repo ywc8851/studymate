@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { dbService, storageService } from "components/fbase";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import PostView from "../routes/PostView";
+import { useHistory, Link } from "react-router-dom";
 const Bulletin = ({ BulletinObj, isOwner }) => {
   // 게시글 수정을 위한 상태변수 설정
+  const [clicking, setClicking] = useState(false);
   const [editing, setEditing] = useState(false); // 수정상태인지 아닌지
   const [newBulletin, setNewBulletin] = useState(BulletinObj.text); // input에 입렫된 text를 업데이트
   const onDeleteClick = async () => {
@@ -13,6 +18,7 @@ const Bulletin = ({ BulletinObj, isOwner }) => {
     }
   };
   const toggleEditing = () => setEditing((prev) => !prev);
+  const toggleClicking = () => setClicking((prev) => !prev);
   const onSubmit = async (event) => {
     event.preventDefault();
     await dbService.doc(`dbboard/${BulletinObj.id}`).update({
@@ -27,9 +33,10 @@ const Bulletin = ({ BulletinObj, isOwner }) => {
     } = event;
     setNewBulletin(value);
   };
+
   return (
-    <div>
-      {editing ? ( // 게시글 수정상태인 경우에만 form을 보여줌
+    <>
+      {editing ? ( // 수정상태인 경우에만 form을 보여줌
         <>
           <form onSubmit={onSubmit}>
             <input
@@ -41,24 +48,55 @@ const Bulletin = ({ BulletinObj, isOwner }) => {
             />
             <input type="submit" value="수정하기" />
           </form>
-          <button onClick={toggleEditing}>Cancel</button>
+
+          <button onClick={toggleEditing}>취소</button>
         </>
       ) : (
         // 수정상태가 아닌 경우
         <>
-          <h4>{BulletinObj.text}</h4>
-          {BulletinObj.attachmentUrl && (
-            <img src={BulletinObj.attachmentUrl} width="50px" height="50px" />
-          )}
-          {isOwner && (
+          <TableRow>
+            <TableCell>
+              <Link to={`/postView/${BulletinObj.bulletinId}`}>
+                {BulletinObj.title}
+              </Link>
+            </TableCell>
+
+            <TableCell>
+              {BulletinObj.attachmentUrl && (
+                <img
+                  src={BulletinObj.attachmentUrl}
+                  width="50px"
+                  height="50px"
+                />
+              )}
+            </TableCell>
+            <TableCell>{BulletinObj.createdAt}</TableCell>
+            <TableCell>{BulletinObj.creatorId}</TableCell>
+            <TableCell>
+              {isOwner && (
+                <>
+                  <button onClick={toggleEditing}>수정</button>
+                </>
+              )}
+            </TableCell>
+            <TableCell>
+              {isOwner && (
+                <>
+                  <button onClick={onDeleteClick}>삭제</button>
+                </>
+              )}
+            </TableCell>
+          </TableRow>
+        </>
+      )}
+
+      {/*  {isOwner && (
             <>
               <button onClick={onDeleteClick}>삭제</button>
               <button onClick={toggleEditing}>수정</button>
             </>
-          )}
-        </>
-      )}
-    </div>
+          )} */}
+    </>
   );
 };
 

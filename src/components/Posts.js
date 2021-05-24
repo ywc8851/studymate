@@ -1,22 +1,37 @@
 import React from "react";
 import Bulletin from "./Bulletin";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+
 const Posts = ({ boards, userObj }) => {
   return (
     <>
-      <div>
-        {/* ¸ðµç°Ô½Ã±ÛÀ» º¸¿©ÁÜ */}
-        {boards.map((board) => (
-          <>
-            <Bulletin
-              key={board.id}
-              BulletinObj={board}
-              isOwner={board.creatorId === userObj.uid} // °èÁ¤»ç¿ëÀÚ°¡ °Ô½Ã±Û »ç¿ëÀÚÀÎÁö È®ÀÎÇÏ±âÀ§ÇØ
-            />
-
-            <br></br>
-          </>
-        ))}
-      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>ì œëª©</TableCell>
+            <TableCell>ì´ë¯¸ì§€</TableCell>
+            <TableCell>ìž‘ì„±ë‚ ì§œ</TableCell>
+            <TableCell>ìž‘ì„±ìž</TableCell>
+            <TableCell>ìˆ˜ì •</TableCell>
+            <TableCell>ì‚­ì œ</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {boards.map((board) => (
+            <>
+              <Bulletin
+                key={board.id}
+                BulletinObj={board}
+                isOwner={board.creatorId === userObj.uid}
+              />
+            </>
+          ))}
+        </TableBody>
+      </Table>
     </>
   );
 };

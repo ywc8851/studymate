@@ -11,7 +11,6 @@ import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -168,7 +167,7 @@ const Auth = () => {
               placeholder="Email"
               label="Email"
               required
-              value={email} // input의 value는 state에 저장
+              value={email} // TextField의 value는 state에 저장
               onChange={onChange}
             />
             <TextField
@@ -229,50 +228,6 @@ const Auth = () => {
         </div>
       </Grid>
     </Grid>
-
-    /* <div>
-      <form onSubmit={onSubmit}>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          required
-          value={email} // input의 value는 state에 저장
-          onChange={onChange}
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-          value={password} // input의 value는 state에 저장
-          onChange={onChange}
-        />
-
-        <input
-          type="submit"
-          value={newAccount ? "Create Account" : "Sign In"}
-          // newAccount일때는 Create Account를 보여주고 아니면 Log In 보여줌
-        />
-      </form>
-      <span onClick={toggleAccount}>
-        {
-          newAccount ? "Sign In" : "Create Account"
-          // newAccount 일때는 Sign In을 보여주고
-          // Sign In을 클릭하면 Create account로 변환
-          // Create account 를 클릭하면 Sign In으로 변환
-        }
-      </span>
-      <div>
-        <button onClick={onSocialClick} name="google">
-          Continue with Google
-        </button>
-
-        <button onClick={onSocialClick} name="github">
-          Continue with Github
-        </button>
-      </div>
-    </div> */
   );
 };
 export default Auth;

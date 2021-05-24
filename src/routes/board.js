@@ -3,12 +3,15 @@ import { dbService, storageService } from "components/fbase";
 import { v4 as uuidv4 } from "uuid";
 import Pagination from "../components/Pagination";
 import Posts from "../components/Posts";
+import TextField from "@material-ui/core/TextField";
+
 const Board = ({ userObj }) => {
+  const [title, setTitle] = useState("");
   const [board, setBoard] = useState("");
   const [boards, setBoards] = useState([]);
   const [attachment, setAttachment] = useState(""); // 이미지 url을 관리하는 state
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지상태를 관리하는 state
-  const [postsPerPage, setPostsPerPage] = useState(3); // 한페이지당 들어갈 게시글수를 관리하는 state
+  const [postsPerPage, setPostsPerPage] = useState(5); // 한페이지당 들어갈 게시글수를 관리하는 state
   useEffect(() => {
     // 실시간으로 게시글을 작성하면 바로 보여지게끔 onSnapshot 사용
     // onSnapshot은 "dbboard"의 db에 무슨일이 있을 때(수정,삭제,등록) , 알림을 받음
@@ -24,6 +27,7 @@ const Board = ({ userObj }) => {
         setBoards(boardArray);
       });
   }, []);
+
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
   function currentPosts(tmp) {
@@ -43,21 +47,29 @@ const Board = ({ userObj }) => {
       attachmentUrl = await response.ref.getDownloadURL(); // 이미지 url을 다운로드하여 저장
     }
     const boardObj = {
+      title: title,
       text: board,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       attachmentUrl,
     };
     await dbService.collection("dbboard").add(boardObj);
+    setTitle("");
     setBoard("");
     setAttachment("");
   };
 
-  const onChange = (event) => {
+  const onChangeContent = (event) => {
     const {
       target: { value },
     } = event;
     setBoard(value);
+  };
+  const onChangeTitle = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setTitle(value);
   };
 
   const onFileChange = (event) => {
@@ -81,15 +93,22 @@ const Board = ({ userObj }) => {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <input
+        <TextField
+          value={title}
+          onChange={onChangeTitle}
+          type="text"
+          placeholder="제목을 입력하세요"
+          maxLength={50}
+        />
+        <TextField
           value={board}
-          onChange={onChange}
+          onChange={onChangeContent}
           type="text"
           placeholder="게시글을 입력하세요"
-          maxLength={120}
+          maxLength={500}
         />
         <input type="file" accept="image/*" onChange={onFileChange} />
-        <input type="submit" value="게시글 작성하기" />
+        <input type="submit" value="글 작성하기" />
         {attachment && ( // attachment가 있는 경우에만 이미지 미리 보여줌
           <div>
             <img src={attachment} width="50px" height="50px" />
@@ -97,28 +116,16 @@ const Board = ({ userObj }) => {
           </div>
         )}
       </form>
+
       <Posts boards={currentPosts(boards)} userObj={userObj}></Posts>
-      {/* 게시글 페이징 구현 */}
+
       <Pagination
         postsPerPage={postsPerPage}
         totalPosts={boards.length}
         paginate={setCurrentPage}
       ></Pagination>
-      {/* <div>
-       모든 게시물을 보여줌
-        {boards.map((board) => (
-          <>
-            <Bulletin
-              key={board.id}
-              BulletinObj={board}
-              isOwner={board.creatorId === userObj.uid} // 계정사용자가 게시글 사용자인지 확인하기위해
-            />
-
-            <br></br>
-          </>
-        ))}
-      </div> */}
     </div>
   );
 };
+
 export default Board;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppRouter from "components/Router";
-import { authService } from "components/fbase";
+import { authService, dbService, storageService } from "components/fbase";
 
 function App() {
   // react hook 사용 , 2개의 state
