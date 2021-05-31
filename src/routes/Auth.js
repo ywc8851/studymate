@@ -111,7 +111,7 @@ const Auth = () => {
         // log in
         data = await authService.signInWithEmailAndPassword(email, password);
       }
-      console.log(data);
+      //console.log(data);
     } catch (error) {
       // 에러 발생시 에러 출력
       setError(error.message);

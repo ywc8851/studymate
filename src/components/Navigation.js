@@ -39,7 +39,10 @@ const Navigation = ({ userObj }) => {
           </Button>
 
           <Button variant="h6" className={classes.title}>
-            <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+            <Link
+              to="/list"
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
               추천리스트
             </Link>
           </Button>

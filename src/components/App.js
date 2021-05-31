@@ -25,6 +25,7 @@ function App() {
     setUserObj({
       displayName: user.displayName,
       uid: user.uid,
+      major: user.uid,
       updateProfile: (args) => user.updateProfile(args),
     });
   };
@@ -40,9 +41,6 @@ function App() {
       ) : (
         "Initializing..."
       )}
-      {/* <footer>
-        &copy; {new Date().getFullYear()} 공부메이트 copyright by 조용우
-      </footer> */}
     </>
   );
 }

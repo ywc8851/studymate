@@ -9,6 +9,7 @@ import Board from "routes/Board";
 import Myboard from "routes/Myboard";
 import PostView from "routes/PostView";
 import EditProfile from "routes/EditProfile";
+import List from "routes/List";
 
 const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
   return (
@@ -25,7 +26,9 @@ const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
             </Route>
 
             <Route path="/postView/:no" component={PostView} />
-
+            <Route exact path="/list">
+              <List userObj={userObj} />
+            </Route>
             <Route exact path="/profile">
               <Profile userObj={userObj} refreshUser={refreshUser} />
             </Route>
