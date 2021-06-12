@@ -92,11 +92,6 @@ const Auth = () => {
     }
   };
   const onSubmit = async (event) => {
-    /* 
-    사용자가 form을 submit 할때마다
-    그 event를 가져와서 preventDefalut 시킴
-    preventDefault : 기본행위가 실행되는걸 방지
-    */
     event.preventDefault();
     try {
       let data; // 데이터를 담을 변수

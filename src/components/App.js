@@ -14,6 +14,7 @@ function App() {
         setUserObj({
           displayName: user.displayName,
           uid: user.uid,
+          major: "",
           updateProfile: (args) => user.updateProfile(args),
         });
       }
@@ -25,7 +26,7 @@ function App() {
     setUserObj({
       displayName: user.displayName,
       uid: user.uid,
-      major: user.uid,
+      major: "",
       updateProfile: (args) => user.updateProfile(args),
     });
   };

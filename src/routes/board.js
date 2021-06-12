@@ -6,13 +6,25 @@ import Posts from "../components/Posts";
 import TextField from "@material-ui/core/TextField";
 
 const Board = ({ userObj }) => {
+  const [name, setName] = useState("");
   const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
   const [board, setBoard] = useState("");
   const [boards, setBoards] = useState([]);
   const [attachment, setAttachment] = useState(""); // 이미지 url을 관리하는 state
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지상태를 관리하는 state
   const [postsPerPage, setPostsPerPage] = useState(5); // 한페이지당 들어갈 게시글수를 관리하는 state
   useEffect(() => {
+    dbService
+      .collection("dbprofile")
+      .where("profileId", "==", userObj.uid)
+      .onSnapshot((snapshot) => {
+        const nameArray = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setName(nameArray[0].name);
+      });
     // 실시간으로 게시글을 작성하면 바로 보여지게끔 onSnapshot 사용
     // onSnapshot은 "dbboard"의 db에 무슨일이 있을 때(수정,삭제,등록) , 알림을 받음
     // orderBy로 글작성 날짜기준 내림차순으로 정렬하여 보여주기
@@ -46,14 +58,27 @@ const Board = ({ userObj }) => {
       const response = await attachmentRef.putString(attachment, "data_url");
       attachmentUrl = await response.ref.getDownloadURL(); // 이미지 url을 다운로드하여 저장
     }
+    const d = new Date();
+    let month = `${d.getMonth() + 1}`;
+    let day = `${d.getDate()}`;
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = `0${month}`;
+    if (day.length < 2) day = `0${day}`;
+
+    const getDate = [year, month, day].join("-");
     const boardObj = {
       title: title,
       text: board,
       createdAt: Date.now(),
+      createdDate: getDate,
       creatorId: userObj.uid,
+      creatorNickname: name,
       attachmentUrl,
     };
+    console.log(boardObj.createdAt);
     await dbService.collection("dbboard").add(boardObj);
+    setDate("");
     setTitle("");
     setBoard("");
     setAttachment("");
@@ -92,7 +117,14 @@ const Board = ({ userObj }) => {
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <form
+        onSubmit={onSubmit}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <TextField
           value={title}
           onChange={onChangeTitle}

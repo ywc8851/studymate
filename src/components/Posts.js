@@ -13,7 +13,7 @@ const Posts = ({ boards, userObj }) => {
         <TableHead>
           <TableRow>
             <TableCell>제목</TableCell>
-            <TableCell>이미지</TableCell>
+            <TableCell>내용</TableCell>
             <TableCell>작성날짜</TableCell>
             <TableCell>작성자</TableCell>
             <TableCell>수정</TableCell>

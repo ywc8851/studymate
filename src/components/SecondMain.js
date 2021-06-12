@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-//import Link from "@material-ui/core/Link";
 import { Link } from "react-router-dom";
-import HomeImage from "../home.jpg";
+import ListImage from "../study5.jpg";
+
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
     position: "relative",
@@ -14,11 +14,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(4),
-    backgroundImage: `url(${HomeImage})`,
+    backgroundImage: `url(${ListImage})`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
   },
+
   overlay: {
     position: "absolute",
     top: 0,
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainFeaturedPost(props) {
+export default function SecondMain(props) {
   const classes = useStyles();
   const { post } = props;
 
@@ -63,8 +64,8 @@ export default function MainFeaturedPost(props) {
             <Typography variant="h5" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Link to="/editprofile" style={{ textDecoration: "none" }}>
-              정보 입력하기
+            <Link to="/list" style={{ textDecoration: "none" }}>
+              {post.linkText}
             </Link>
           </div>
         </Grid>
@@ -73,6 +74,6 @@ export default function MainFeaturedPost(props) {
   );
 }
 
-MainFeaturedPost.propTypes = {
+SecondMain.propTypes = {
   post: PropTypes.object,
 };

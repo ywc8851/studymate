@@ -18,34 +18,37 @@ const List = ({ userObj }) => {
           id: doc.id,
           ...doc.data(),
         }));
-
-        //console.log(myprofileArray[0].profileMajor);
-        //mymajor = myprofileArray[0].profileMajor;
-        //setMajor(myprofileArray[0].profileMajor);
         userObj.major = myprofileArray[0].profileMajor;
         console.log(userObj.major);
-        //console.log(mymajor);
       });
 
     dbService
       .collection("dbprofile")
-      .where("profileMajor", "==", "공학계열")
+      .where("profileMajor", "==", userObj.major)
       .onSnapshot((snapshot) => {
         const mylistArray = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setLists(mylistArray);
-        //console.log(mymajor);
-        /* console.log(mylistArray);
-        console.log(mylistArray[0].profileMajor);
-        console.log(mylistArray); */
       });
   }, []);
   return (
     <div>
       {lists.map((mylist) => (
-        <div key={mylist.id}>
+        <div
+          key={mylist.id}
+          style={{
+            width: "50%",
+            textAlign: "center",
+            marginLeft: "400px",
+            //display: "flex",
+            //justifyContent: "center",
+            //alignItems: "center",
+            border: "10px solid lightblue",
+            marginTop: " 10px",
+          }}
+        >
           <Grid item xs={12}>
             <Paper>이름 : {mylist.name}</Paper>
             <Paper>나이 : {mylist.profileAge}</Paper>
@@ -53,7 +56,6 @@ const List = ({ userObj }) => {
             <Paper>주소 : {mylist.profileAddress}</Paper>
             <Paper>전공 : {mylist.profileMajor}</Paper>
           </Grid>
-          <br></br>
         </div>
       ))}
     </div>

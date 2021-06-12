@@ -23,7 +23,13 @@ const Myboard = ({ userObj }) => {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       {myboards.map((myboard) => (
         <Bulletin
           key={myboard.id}

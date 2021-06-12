@@ -38,40 +38,66 @@ const Bulletin = ({ BulletinObj, isOwner }) => {
     <>
       {editing ? ( // 수정상태인 경우에만 form을 보여줌
         <>
-          <form onSubmit={onSubmit}>
-            <input
-              type="text"
-              placeholder="수정할 게시글을 입력하세요"
-              value={newBulletin}
-              required
-              onChange={onChange}
-            />
-            <input type="submit" value="수정하기" />
-          </form>
+          <TableRow>
+            <TableCell>{BulletinObj.title}</TableCell>
 
-          <button onClick={toggleEditing}>취소</button>
+            <TableCell>
+              <form onSubmit={onSubmit}>
+                <input
+                  type="text"
+                  placeholder="수정할 게시글을 입력하세요"
+                  value={newBulletin}
+                  required
+                  onChange={onChange}
+                />
+                <input type="submit" value="수정하기" />
+              </form>
+
+              <button onClick={toggleEditing}>취소</button>
+            </TableCell>
+            <TableCell>{BulletinObj.createdDate}</TableCell>
+            <TableCell>{BulletinObj.creatorNickname}</TableCell>
+            <TableCell>
+              {isOwner && (
+                <>
+                  <button onClick={toggleEditing}>수정</button>
+                </>
+              )}
+            </TableCell>
+            <TableCell>
+              {isOwner && (
+                <>
+                  <button onClick={onDeleteClick}>삭제</button>
+                </>
+              )}
+            </TableCell>
+          </TableRow>
         </>
       ) : (
         // 수정상태가 아닌 경우
         <>
           <TableRow>
             <TableCell>
-              <Link to={`/postView/${BulletinObj.bulletinId}`}>
+              <Link
+                to={`/postView/${BulletinObj.bulletinId}`}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
                 {BulletinObj.title}
               </Link>
             </TableCell>
 
             <TableCell>
-              {BulletinObj.attachmentUrl && (
+              {/* {BulletinObj.attachmentUrl && (
                 <img
                   src={BulletinObj.attachmentUrl}
                   width="50px"
                   height="50px"
                 />
-              )}
+              )} */}
+              {BulletinObj.text}
             </TableCell>
-            <TableCell>{BulletinObj.createdAt}</TableCell>
-            <TableCell>{BulletinObj.creatorId}</TableCell>
+            <TableCell>{BulletinObj.createdDate}</TableCell>
+            <TableCell>{BulletinObj.creatorNickname}</TableCell>
             <TableCell>
               {isOwner && (
                 <>
@@ -89,13 +115,6 @@ const Bulletin = ({ BulletinObj, isOwner }) => {
           </TableRow>
         </>
       )}
-
-      {/*  {isOwner && (
-            <>
-              <button onClick={onDeleteClick}>삭제</button>
-              <button onClick={toggleEditing}>수정</button>
-            </>
-          )} */}
     </>
   );
 };

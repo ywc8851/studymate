@@ -1,8 +1,30 @@
 import React, { useState } from "react";
 import { authService, dbService } from "components/fbase";
 import { useHistory, Link } from "react-router-dom";
-
+import { makeStyles } from "@material-ui/core/styles";
 const EditProfile = ({ refreshUser, userObj }) => {
+  const useStyles = makeStyles((theme) => ({
+    input: {
+      width: "40%",
+      marginBottom: theme.spacing(1),
+      marginTop: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+      border: "3px solid lightblue",
+    },
+    form: {
+      border: "20px solid blue",
+      position: "absolute",
+      top: "20%",
+      left: "35%",
+      width: "500px",
+      height: "500px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  }));
+  const classes = useStyles();
   const history = useHistory();
   const [nickname, setNickname] = useState("");
   const [address, setAddress] = useState("");
@@ -63,6 +85,15 @@ const EditProfile = ({ refreshUser, userObj }) => {
       profileMajor: major,
     };
     await dbService.collection("dbprofile").add(profileObj);
+
+    /* await dbService.doc(`dbprofile/${userObj.uid}`).update({
+      name: nickname,
+      profileId: userObj.uid,
+      profileAddress: address,
+      profileCollege: college,
+      profileAge: age,
+      profileMajor: major,
+    }); */
     setNickname("");
     setAddress("");
     setCollege("");
@@ -80,8 +111,9 @@ const EditProfile = ({ refreshUser, userObj }) => {
 
   return (
     <>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className={classes.form}>
         <input
+          className={classes.input}
           onChange={onChange}
           type="text"
           placeholder="변경할 이름을 입력하세요"
@@ -89,6 +121,7 @@ const EditProfile = ({ refreshUser, userObj }) => {
         />
         <br></br>
         <input
+          className={classes.input}
           onChange={onChangeNickname}
           type="text"
           placeholder="닉네임"
@@ -96,6 +129,7 @@ const EditProfile = ({ refreshUser, userObj }) => {
         />
         <br></br>
         <input
+          className={classes.input}
           onChange={onChangeAddress}
           type="text"
           placeholder="주소"
@@ -103,6 +137,7 @@ const EditProfile = ({ refreshUser, userObj }) => {
         />
         <br></br>
         <input
+          className={classes.input}
           onChange={onChangeCollege}
           type="text"
           placeholder="대학"
@@ -110,6 +145,7 @@ const EditProfile = ({ refreshUser, userObj }) => {
         />
         <br></br>
         <input
+          className={classes.input}
           onChange={onChangeAge}
           type="text"
           placeholder="나이"
@@ -117,7 +153,11 @@ const EditProfile = ({ refreshUser, userObj }) => {
         />
         <br></br>
 
-        <select value={major} onChange={onChangeMajor}>
+        <select
+          className={classes.input}
+          value={major}
+          onChange={onChangeMajor}
+        >
           <option value="">전공계열선택</option>
           <option value="인문계열">인문계열</option>
           <option value="사회계열(경상계열)">사회계열(경상계열)</option>
