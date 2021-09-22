@@ -19,7 +19,7 @@ const List = ({ userObj }) => {
           ...doc.data(),
         }));
         userObj.major = myprofileArray[0].profileMajor;
-        console.log(userObj.major);
+        // console.log(userObj.major);
       });
 
     dbService
@@ -32,7 +32,7 @@ const List = ({ userObj }) => {
         }));
         setLists(mylistArray);
       });
-  }, []);
+  }, [lists]);
   return (
     <div>
       {lists.map((mylist) => (
@@ -42,9 +42,6 @@ const List = ({ userObj }) => {
             width: "50%",
             textAlign: "center",
             marginLeft: "400px",
-            //display: "flex",
-            //justifyContent: "center",
-            //alignItems: "center",
             border: "10px solid lightblue",
             marginTop: " 10px",
           }}

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import AppRouter from "components/Router";
-import { authService, dbService, storageService } from "components/fbase";
+import { authService } from "components/fbase";
 
 function App() {
   // react hook 사용 , 2개의 state
   const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     // firebase가 초기화 하는 걸 기다려줌
     authService.onAuthStateChanged((user) => {
@@ -17,6 +18,9 @@ function App() {
           major: "",
           updateProfile: (args) => user.updateProfile(args),
         });
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
       setInit(true); // init이 false면 router를 숨김
     });
@@ -36,7 +40,7 @@ function App() {
       {init ? (
         <AppRouter
           refreshUser={refreshUser}
-          isLoggedIn={Boolean(userObj)}
+          isLoggedIn={isLoggedIn}
           userObj={userObj}
         />
       ) : (

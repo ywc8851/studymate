@@ -84,7 +84,7 @@ const Auth = () => {
     } = event;
 
     if (name === "email") {
-      // name이 emial이면 state인 email을 변경
+      // name이 email이면 state인 email을 변경
       setEmail(value);
     } else if (name === "password") {
       // name이 password면 password를 변경
@@ -98,12 +98,12 @@ const Auth = () => {
       if (newAccount) {
         // create account
         data = await authService.createUserWithEmailAndPassword(
-          // 이메일과 비밀번호 입력받기
+          // 이메일과 비밀번호 입력아서 회원가입하기
           email,
           password
         );
       } else {
-        // log in
+        // 이메일과 비밀번호를 입력받아서 log in 하기
         data = await authService.signInWithEmailAndPassword(email, password);
       }
       //console.log(data);
@@ -126,7 +126,6 @@ const Auth = () => {
     provider = new firebaseInstance.auth.GoogleAuthProvider();
 
     const data = await authService.signInWithPopup(provider);
-    console.log(data);
   };
   const onGithubClick = async (event) => {
     const {
@@ -137,7 +136,6 @@ const Auth = () => {
     provider = new firebaseInstance.auth.GithubAuthProvider();
 
     const data = await authService.signInWithPopup(provider);
-    console.log(data);
   };
   const classes = useStyles();
   return (
@@ -162,7 +160,7 @@ const Auth = () => {
               placeholder="Email"
               label="Email"
               required
-              value={email} // TextField의 value는 state에 저장
+              value={email} // TextField의 value는 email에 저장
               onChange={onChange}
             />
             <TextField
@@ -174,7 +172,7 @@ const Auth = () => {
               placeholder="Password"
               label="Password"
               required
-              value={password} // input의 value는 state에 저장
+              value={password} // TextField value는 password에 저장
               onChange={onChange}
             />
 
